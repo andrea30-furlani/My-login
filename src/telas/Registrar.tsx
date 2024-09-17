@@ -1,11 +1,14 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image} from 'react-native';
 import { NavigationProp, ParamListBase } from '@react-navigation/native';
+import UserContext from '../context/user';
+import AuthContext from '../context/auth';
+import { auth } from '../config/firebase';
 
 interface NavigationProps {
   navigation:NavigationProp<ParamListBase>;
 }
-const PlaceholderImage = require('../component/image/usuario.png');
+const PlaceholderImage = require('../component/image/user.png');
 
 const Registrar = ({navigation}:NavigationProps) => {
   const [nomeUsuario, setNomeUsuario] = useState('');
@@ -13,8 +16,9 @@ const Registrar = ({navigation}:NavigationProps) => {
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
   const [senha2, setSenha2] = useState('');
+  const {CreateAccount} = useContext(AuthContext)
 
-  const onLoginClickRegistro = () => {
+  const onLoginClickRegistro = async () => {
     // confere se a senha e iqual a senha de confirmação
     // console.log( '>>> ', (( senha.trim() === '') || ( senha2.trim() === '') ))
     if ( senha.trim() === '' ||  senha2.trim() === '' ) {
@@ -26,7 +30,8 @@ const Registrar = ({navigation}:NavigationProps) => {
        return
     }
    
-    navigation.navigate('Home')
+    const response = await CreateAccount(email,senha);
+    
      
   }
 

@@ -41,7 +41,7 @@ export const AuthProvider = ({children}: {children: React.ReactNode}) => {
 
     async function SignOut(){
         const response = await LogoutUser();
-        setUser(response.user);
+        setUser(null);
         await AsyncStorage.setItem("@RNAuth:user", '');
         await AsyncStorage.setItem("@RNAuth:token", '');
     }
